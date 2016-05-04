@@ -1,0 +1,113 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Alerta Web {% block page-title %}{% endblock %} </title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <link rel="shortcut icon" href="{%  static 'alerts/img/favicon.gif' %}">
+    </head>
+
+
+<body>
+{% block navbar %}
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img src="http://i.imgur.com/SDUcKwC.png"></img></a>
+      <a class="navbar-brand" href="/">Alerta Web</a>
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="divider-vertical" style ="height: 50px;border-left: 1px solid #F2F2F2;border-right: 1px solid #FFF;"></li>
+        <li><a href="/">Mapa de Alertas</a></li>
+        <li><a href="/anuncios/">Anúncios</a></li>
+        {% if permission == 0 %}
+        <li><a href="/relate/">Reporte uma Ocorrência</a></li>
+        {% endif %}
+        <li class="divider-vertical" style ="height: 50px;border-left: 1px solid #F2F2F2;border-right: 1px solid #FFF;"></li>
+        {% if permission > 0 %}
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Operacional<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/operacional/relatos/">Verificar Relatos Públicos</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/operacional/">Controle de Alertas</a></li>
+            <li><a href="/operacional/cadastro/">Cadastrar Novo Alerta</a></li>
+            <li><a href="/operacional/mensagem/">Cadastrar Mensagem</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/operacional/anuncios/">Controle de Anúncios</a></li>
+          </ul>
+        </li>
+        {% endif %}
+
+        {% if permission > 1 %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Supervisor<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/supervisor/">Controle de Alertas</a></li>
+            <li><a href="/supervisor/anuncios/">Controle de Anúncios</a></li>
+
+          </ul>
+        </li>
+
+
+        {% endif %}
+
+        {% if permission == 4 %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administração<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/listagem/">Lista de Alertas</a></li>
+            <li><a href="/cadastro/">Cadastrar Alertas</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Cadastro de Cores</a></li>
+            <li><a href="#">Cadastro de Ícones</a></li>
+            <li><a href="#">Cadastro de Fases</a></li>
+            <li><a href="#">Cadastro de Tipos de Alerta</a></li>
+            <li><a href="#">Cadastro de Órgão</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Cadastrar Usuário</a></li>
+            <li><a href="#">Lista de Usuários</a></li>
+
+
+          </ul>
+        </li>
+        {% endif %}
+
+        {% if permission > 0 %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+        <li><p class="navbar-text">{{ user.userorgan.user_organ }} </p></li>
+        <li role="separator" class="divider"></li>
+        <li><a href="/logout/?next=/">Logout</a></li>
+        </ul>
+        {% block navbar-add %} {% endblock %}
+        {% else %}
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+
+        <li><a href="/login/">Login</a></li>
+        </ul>
+        {% endif %}
+
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block container %}
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+</body>
+
+
+</html>

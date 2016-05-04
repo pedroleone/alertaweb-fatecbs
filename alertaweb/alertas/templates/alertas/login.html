@@ -1,0 +1,32 @@
+{% extends "alertas/base.html" %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+
+{% block page-title %} - Login {% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for b_alert in bootstrap_alerts %}
+    <div class="alert {{ b_alert.alert_type }} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <span class="glyphicon {{b_alert.alert_title}}" aria-hidden="true"></span> {{ b_alert.alert_message }}
+    </div>
+    {% endfor %}
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+          </div>
+          <div class="panel-body">
+            Digite seu usuário e senha
+            <form action="" method="post" >
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" class="btn btn-primary" value="Entrar" />
+            </form>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends "alertas/base.html" %}
+{% block page-title %} - Operacional - Listagem de Relatos {% endblock %}
+{% block content %}
+<h1>Lista de Relatos - Operacional</h1>
+
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Relatos Novos</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo do Relato</th>
+        <th>Criado Em</th>
+        <th>Nome do Visitante</th>
+        <th>Telefone do Visitante</th>
+    </tr>
+</thead>
+{% if relatos_pendentes %}
+{% for relato in relatos_pendentes %}
+<tr>
+    <td scope="row">{{ relato.id }}</td>
+    <td>{{ relato.title }} </td>
+    <td>{{ relato.alert_type }}</td>
+    <td>{{ relato.creation_date }}</td>
+    <td>{{ relato.visitor_name }} </td>
+    <td>{{ relato.visitor_phone }} </td>
+    <td><a href="{% url 'detalhe_relato' relato.id %}" class="btn btn-info" role="button">Verificar</a> <a href="{% url 'rejeitar_relato' relato.id %}" class="btn btn-danger" role="button">Rejeitar</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4>Não há novos relatos</td></tr>
+{% endif %}
+</table>
+  </div>
+</div>
+
+
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Relatos Rejeitados</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+    </tr>
+</thead>
+{% if relatos_rejeitados %}
+{% for relato in relatos_rejeitados %}
+<tr>
+    <td scope="row">{{ relato.id }}</td>
+    <td>{{ relato.title }} </td>
+    <td>{{ relato.alert_type }}</td>
+    <td>{{ relato.creation_date }}</td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há relatos rejeitados</em></td></tr>
+{% endif %}
+</table>
+  </div>
+</div>
+
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Relatos Aprovados</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo do Relato</th>
+        <th>Criado Em</th>
+        <th>Nome do Visitante</th>
+        <th>Telefone do Visitante</th>
+    </tr>
+</thead>
+{% if relatos_aprovados %}
+{% for relato in relatos_aprovados %}
+<tr>
+    <td scope="row">{{ relato.id }}</td>
+    <td>{{ relato.title }} </td>
+    <td>{{ relato.alert_type }}</td>
+    <td>{{ relato.creation_date }}</td>
+    <td>{{ relato.visitor_name }} </td>
+    <td>{{ relato.visitor_phone }} </td>
+
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4>Não há novos relatos</td></tr>
+{% endif %}
+</table>
+  </div>
+</div>
+
+{% endblock content %}

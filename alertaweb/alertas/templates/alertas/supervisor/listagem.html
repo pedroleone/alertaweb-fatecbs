@@ -1,0 +1,110 @@
+{% extends "alertas/base.html" %}
+{% block page-title %} - Operacional - Listagem de Alertas {% endblock %}
+{% block content %}
+<h1>Alertas Aprovados</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+        <th></th>
+    </tr>
+</thead>
+{% if alertas_aprovados %}
+{% for alert in alertas_aprovados %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'arquivar_alerta' alert.id %}" class="btn btn-default" role="button">Arquivar</a> <a href="{% url 'mensagem' alert.id %}" class="btn btn-info" role="button">Mensagens</a></td>
+
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas aprovados</em></td></tr>
+{% endif %}
+</table>
+
+
+<h1>Alertas Pendente de Aprovação</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+        <th></th>
+    </tr>
+</thead>
+{% if alertas_pendentes %}
+{% for alert in alertas_pendentes %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'aprovacao_alerta' alert.id %}" class="btn btn-primary" role="button">Aprovação</a> <a href="{% url 'apagar_alerta' alert.id %}" class="btn btn-danger" role="button">Excluir</a> <a href="{% url 'mensagem' alert.id %}" class="btn btn-info" role="button">Mensagens</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas pendente de aprovação</em></td></tr>
+{% endif %}
+</table>
+<h1>Alertas Rejeitados</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+
+    </tr>
+</thead>
+{% if alertas_rejeitados %}
+{% for alert in alertas_rejeitados %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'apagar_alerta' alert.id %}" class="btn btn-danger" role="button">Excluir</a> <a href="{% url 'mensagem' alert.id %}" class="btn btn-info" role="button">Mensagens</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas rejeitados</em></td></tr>
+{% endif %}
+</table>
+
+<h1>Alertas Arquivados</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+    </tr>
+</thead>
+{% if alertas_arquivados %}
+{% for alert in alertas_arquivados %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas arquivados</em></td></tr>
+{% endif %}
+</table>
+{% endblock content %}

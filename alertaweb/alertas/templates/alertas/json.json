@@ -1,0 +1,35 @@
+{% load l10n %}
+{
+    "alertas": [
+    {% if alertas_aprovados %}
+    {% for alert in alertas_aprovados %}
+    {% if not forloop.first %}, {% endif %}
+    {
+        "alerta_id": {{ alert.id }},
+        "latitude": {{ alert.latitude|unlocalize }},
+        "longitude": {{ alert.longitude|unlocalize }},
+        "radius": {{ alert.radius }},
+        "strokeColor": "{{ alert.alert_type.alert_color.stroke_color }}",
+        "fillColor": "{{ alert.alert_type.alert_color.fill_color }}",
+        "alert_icon": "{{ alert.alert_type.alert_icon.icon_name_minified }}",
+        "icon_url": "{{ alert.alert_type.alert_icon.icon_url }}",
+        "title": "{{ alert.title }}",
+        "organ": "{{ alert.alert_organ }}",
+        "creation date": "{{ alert.creation_date|date:'c' }}",
+        "messages": [
+            {% for detail in alert.get_public_detail %}
+            {% if not forloop.first %}, {% endif %}
+                {
+                    "detail date": "{{ detail.last_updated|date:'c' }}",
+                    "message text": "{{ detail.message }}"
+                }
+            {% endfor %}
+                    ]
+    }
+
+    {% endfor %}
+    {% endif %}
+    ]
+
+}
+

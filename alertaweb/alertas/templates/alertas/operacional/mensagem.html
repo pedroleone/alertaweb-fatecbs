@@ -1,0 +1,95 @@
+{% extends "alertas/base.html" %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+
+{% block page-title %} - Administração - Detalhe Alerta {% endblock %}
+
+{% block content %}
+<h1>{{ alert.title }}</h1>
+{% for b_alert in bootstrap_alerts %}
+<div class="alert {{ b_alert.alert_type }} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span class="glyphicon {{b_alert.alert_title}}" aria-hidden="true"></span> {{ b_alert.alert_message }}
+</div>
+{% endfor %}
+<script type="text/javascript">
+    function initMap() {
+      // Create the map.
+      var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+        zoom: 14,
+        center: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }}},
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      });
+
+        var alert_id_{{ alert.id }} = new google.maps.Circle ({
+            strokeColor: '{{ alert.alert_type.stroke_color }}',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '{{ alert.alert_type.fill_color }}',
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }} },
+            radius: {{ alert.radius|unlocalize }}
+        });
+    }
+
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVq_qBLGvqksBCYFZPf4xN60oVg0wZtU&callback=initMap">
+</script>
+<style>
+  #mapCanvas {
+    height: 380px;
+  }
+  .top-buffer { margin-top:20px; }
+
+</style>
+<div class="row"></div>
+<div class="row top-buffer">
+    <div class="col-sm-8" id="mapCanvas"></div>
+    <div class="col-sm-4">
+<div class="panel panel-default">
+  <div class="panel-body"><h4>Cadastro de Nova Mensagem</h4>
+<form action="" method="post" >
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" class="btn btn-primary" value="Cadastrar" />
+</form>
+  </div>
+</div>
+</div>
+</div>
+<div class="row">
+    <form action="" method="post">
+    <h3>Mesagens Cadastradas <div class="btn-group" role="group" aria-label="...">
+</div></h3>
+
+
+{% csrf_token %}
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Título</th>
+        <th>Data de Atualização</th>
+        <th>Mensagem</th>
+        <th>Privado?</th>
+    </tr>
+</thead>
+{% if mensagens %}
+{% for msg in mensagens %}
+<tr>
+    <td><strong>{{ msg.title }}</strong></td>
+    <td>{{ msg.last_updated }}</td>
+    <td>{{ msg.message }}</td>
+    <td>{{ msg.privado }}</td>
+</tr>
+{% endfor %}
+{% else %}
+<tr>
+    <td colspan=6><em>Não há mensagens cadastradas para este alerta</em></td>
+</tr>
+{% endif %}
+</table>
+</form>
+</div>
+{% endblock content %}

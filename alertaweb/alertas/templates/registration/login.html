@@ -1,0 +1,99 @@
+{% extends "alertas/base.html" %}
+
+{% block content %}
+
+
+<div class="row">
+
+{% if form.errors %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Login/senha inválido
+    </div>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Sua conta não tem acesso a esta página. Para proceder, favor fazer o login com uma conta que possui acesso.
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Por favor, faça login para ver esta página.
+    </div>
+    {% endif %}
+{% endif %}
+
+<div class="col-sm-4"></div>
+
+<div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Login</h3>
+          </div>
+          <div class="panel-body">
+<form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+{% csrf_token %}
+<table>
+<tr>
+    <td>{{ form.username.label_tag }} </td>
+    <td> {{ form.username }}</td>
+</tr>
+<tr>
+    <td>{{ form.password.label_tag }} </td>
+    <td> {{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="login" class="btn btn-primary"/>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'password_reset' %}">Resetar Senha</a></p>
+</div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>Orgao</th>
+        <th>Perfil</th>
+        <th>User</th>
+        <th>Senha</th>
+    </tr>
+    <tr>
+        <td>Administração</td>
+        <td>Administrador</td>
+        <td>admin</td>
+        <td>tccalerta</td>
+    </tr>
+    <tr>
+        <td>Defesa Civil de Santos</td>
+        <td>Operacional</td>
+        <td>defesaciv_s_o</td>
+        <td>defop_senha</td>
+    </tr>
+    <tr>
+        <td>Defesa Civil de Santos</td>
+        <td>Supervisor</td>
+        <td>defesaciv_s_s</td>
+        <td>defsup_senha</td>
+    </tr>
+    <tr>
+        <td>CET de Santos</td>
+        <td>Operacional</td>
+        <td>cetsantos_s_o</td>
+        <td>cetop_senha</td>
+    </tr>
+    <tr>
+        <td>CET de Santos</td>
+        <td>Supervisor</td>
+        <td>cetsantos_s_s</td>
+        <td>cetsup_senha</td>
+    </tr>
+</table>
+
+
+{% endblock %}

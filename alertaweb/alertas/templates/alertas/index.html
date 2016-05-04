@@ -1,0 +1,120 @@
+{% extends "alertas/base_index.html" %}
+{% load l10n %}
+
+
+
+{% block content %}
+<style>
+  #mapCanvas {
+    height: 100%;
+  }
+</style>
+
+<style>
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+</style>
+
+
+<div  id="mapCanvas">
+
+    <script type="text/javascript">
+    function initMap() {
+      // Create the map.
+      var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+        zoom: 13,
+        center: {lat: -23.952778	, lng: -46.358204},
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      });
+
+        {% for alert in active_alerts %}
+
+
+        var alert_id_{{ alert.id }} = new google.maps.Circle ({
+            strokeColor: '{{ alert.alert_type.alert_color.stroke_color }}',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '{{ alert.alert_type.alert_color.fill_color }}',
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }} },
+            radius: {{ alert.radius|unlocalize }}
+        });
+
+        var infowindow_{{ alert.id }} = new google.maps.InfoWindow({
+            content: '<div id="content"><h2>{{ alert.title }}</h2><h6> {{alert.alert_organ}} </h6> {% for detail in alert.get_public_detail %} <p><strong>{{ detail.last_updated }}</strong> - {{ detail.message }}</p> {% endfor %}</div>'
+        });
+
+        var marker_{{ alert.id }} = new google.maps.Marker({
+          position: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }} },
+          title: '{{ alert.title }}',
+          map: map,
+          draggable: false,
+          icon: '{{ alert.alert_type.alert_icon.icon_url }}'
+        });
+
+        //google.maps.event.addListener( alert_id_{{ alert.id }}, 'click', function(ev) {
+        //    infowindow_{{ alert.id }}.setPosition(alert_id_{{ alert.id }}.getCenter());
+        //    infowindow_{{ alert.id }}.open(map);
+        //});
+
+        marker_{{ alert.id }}.addListener('click', function() {
+            infowindow_{{ alert.id }}.open(map, marker_{{ alert.id }});
+        });
+
+        alert_id_{{ alert.id }}.addListener('click', function() {
+            infowindow_{{ alert.id }}.open(map, marker_{{ alert.id }});
+        });
+
+        {% endfor %}
+    }
+    </script>
+
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVq_qBLGvqksBCYFZPf4xN60oVg0wZtU&callback=initMap">
+    </script>
+
+</div>
+
+
+
+
+
+
+{% endblock content %}
+
+{% block footer %}
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted"><b>Integrantes:</b> Pedro Luiz Leone Gonçalves, Bruno Lira, Gabriel Abraão, Lucas Braga.</p>
+      </div>
+    </footer>
+{% endblock footer %}

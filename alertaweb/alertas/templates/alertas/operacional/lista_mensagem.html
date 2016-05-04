@@ -1,0 +1,86 @@
+{% extends "alertas/base.html" %}
+{% block page-title %} - Operacional - Cadastrar Mensagem {% endblock %}
+{% block content %}
+<h1>Cadastro de Mensagens - Operacional</h1>
+<h2>Alertas Aprovados</h2>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+        <th></th>
+    </tr>
+</thead>
+{% if alertas_aprovados %}
+{% for alert in alertas_aprovados %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'cadastro_mensagem_operacional' alert.id %}" class="btn btn-default" role="button">Cadastrar Mensagem</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas aprovados</em></td></tr>
+{% endif %}
+</table>
+
+
+<h2>Alertas Pendente de Aprovação</h2>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+        <th></th>
+    </tr>
+</thead>
+{% if alertas_pendentes %}
+{% for alert in alertas_pendentes %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'cadastro_mensagem_operacional' alert.id %}" class="btn btn-default" role="button">Cadastrar Mensagem</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas pendente de aprovação</em></td></tr>
+{% endif %}
+</table>
+<h1>Alertas Rejeitados</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Tipo de Alerta</th>
+        <th>Criado Em</th>
+        <th></th>
+    </tr>
+</thead>
+{% if alertas_rejeitados %}
+{% for alert in alertas_rejeitados %}
+<tr>
+    <td scope="row">{{ alert.id }}</td>
+    <td>{{ alert.title }} </td>
+    <td>{{ alert.alert_type }}</td>
+    <td>{{ alert.creation_date }}</td>
+    <td><a href="{% url 'cadastro_mensagem_operacional' alert.id %}" class="btn btn-default" role="button">Cadastrar Mensagem</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há alertas rejeitados</em></td></tr>
+{% endif %}
+</table>
+
+{% endblock content %}

@@ -1,0 +1,336 @@
+{% extends "alertas/base.html" %}
+{% load crispy_forms_tags %}
+{% block page-title %} - Operacional - Anúncios {% endblock %}
+{% block content %}
+
+
+
+<h1>Lista de Anúncios - Supervisor</h1>
+
+
+
+
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Anúncios Pendente de Aprovação</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Link</th>
+        <th>Criado Em</th>
+        <th>Ação</th>
+    </tr>
+</thead>
+{% if anuncios_pendentes %}
+{% for anuncio in anuncios_pendentes %}
+<tr>
+    <td scope="row">{{ anuncio.id }}</td>
+    <td>{{ anuncio.title }} </td>
+    <td><a href="{{anuncio.url}}">Link</a></td>
+    <td>{{ anuncio.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+    <td>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAnuncioAprovar" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Aprovar</button>
+        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modalAnuncioRejeitar" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Rejeitar</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnuncioExcluir" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</button>
+    </td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4>Não há anúncios pendente de aprovação</td></tr>
+{% endif %}
+</table>
+  </div>
+</div>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Anúncios Rejeitados</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Link</th>
+        <th>Criado Em</th>
+        <th>Ação</th>
+    </tr>
+</thead>
+{% if anuncios_rejeitados %}
+{% for anuncio in anuncios_rejeitados %}
+<tr>
+    <td scope="row">{{ anuncio.id }}</td>
+    <td>{{ anuncio.title }} </td>
+    <td><a href="{{anuncio.url}}">Link</a></td>
+    <td>{{ anuncio.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+    <td>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnuncioExcluir" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</button>
+    </td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há anúncios rejeitados</em></td></tr>
+{% endif %}
+</table>
+  </div>
+
+</div>
+
+
+<div class="panel panel-success">
+  <div class="panel-heading">
+    <h3 class="panel-title">Anúncios Aprovados</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Link</th>
+        <th>Criado Em</th>
+        <th>Ação</th>
+    </tr>
+</thead>
+{% if anuncios_aprovados %}
+{% for anuncio in anuncios_aprovados %}
+<tr>
+    <td scope="row">{{ anuncio.id }}</td>
+    <td>{{ anuncio.title }} </td>
+    <td><a href="{{anuncio.url}}">Link</a></td>
+    <td>{{ anuncio.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+    <td>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalAnuncioArquivar" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> Arquivar</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnuncioExcluir" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</button>
+    </td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há anúncios aprovados</em></td></tr>
+{% endif %}
+</table>
+  </div>
+
+</div>
+
+
+<div class="panel panel-warning">
+  <div class="panel-heading">
+    <h3 class="panel-title">Anúncios Arquivados</h3>
+  </div>
+  <div class="panel-body">
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Cód.</th>
+        <th>Título</th>
+        <th>Link</th>
+        <th>Criado Em</th>
+        <th>Ação</th>
+    </tr>
+</thead>
+{% if anuncios_arquivados %}
+{% for anuncio in anuncios_arquivados %}
+<tr>
+    <td scope="row">{{ anuncio.id }}</td>
+    <td>{{ anuncio.title }} </td>
+    <td><a href="{{anuncio.url}}">Link</a></td>
+    <td>{{ anuncio.date_created|date:"SHORT_DATE_FORMAT" }}</td>
+    <td>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalAnuncioExcluir" data-id="{{anuncio.id}}" data-url="{{anuncio.url}}" data-titulo="{{anuncio.title}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Excluir</button>
+    </td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=4><em>Não há anúncios arquivados</em></td></tr>
+{% endif %}
+</table>
+  </div>
+
+</div>
+
+
+
+<div class="modal fade" id="modalAnuncioExcluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Exclusão de Anúncio</h4>
+      </div>
+	  <form action="" method="post" >
+    {% csrf_token %}
+
+      <div class="modal-body">
+        <p>Tem certeza que deseja excluir o anúncio <span id="d_id" ></span> - <span id="d_titulo" ></span>?</p>
+        <input id="d_idanuncio" name="id_anuncio" type="hidden" value="" />
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <input type="submit" class="btn btn-danger" name="delete" value="Excluir" />
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="modalAnuncioRejeitar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Rejeitar Anúncio</h4>
+      </div>
+	  <form action="" method="post" >
+    {% csrf_token %}
+
+      <div class="modal-body">
+        <p>Tem certeza que deseja rejeitar o anúncio <span id="d_id" ></span> - <span id="d_titulo" ></span>?</p>
+        <input id="d_idanuncio" name="id_anuncio" type="hidden" value="" />
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <input type="submit" class="btn btn-warning" name="rejeitar" value="Rejeitar" />
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="modalAnuncioArquivar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Arquivar Anúncio</h4>
+      </div>
+	  <form action="" method="post" >
+    {% csrf_token %}
+
+      <div class="modal-body">
+        <p>Tem certeza que deseja arquivar o anúncio <span id="d_id" ></span> - <span id="d_titulo" ></span>?</p>
+        <input id="d_idanuncio" name="id_anuncio" type="hidden" value="" />
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <input type="submit" class="btn btn-info" name="arquivar" value="Arquivar" />
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modalAnuncioAprovar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Aprovação de Anúncio</h4>
+      </div>
+	  <form action="" method="post" >
+    {% csrf_token %}
+
+      <div class="modal-body">
+        <p>Tem certeza que deseja aprovar o anúncio <span id="d_id" ></span> - <span id="d_titulo" ></span>?</p>
+        <input id="d_idanuncio" name="id_anuncio" type="hidden" value="" />
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <input type="submit" class="btn btn-success" name="aprovar" value="Aprovar" />
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+
+$('#modalAnuncioExcluir').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+
+  var id_anuncio = button.data('id')
+  var titulo = button.data('titulo')
+  var url = button.data('url')
+
+  var modal = $(this)
+
+  modal.find('#d_titulo').text(titulo)
+  modal.find('#d_idanuncio').val(id_anuncio)
+  modal.find('#d_id').text(id_anuncio)
+})
+
+$('#modalAnuncioAprovar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+
+  var id_anuncio = button.data('id')
+  var titulo = button.data('titulo')
+  var url = button.data('url')
+
+  var modal = $(this)
+
+  modal.find('#d_titulo').text(titulo)
+  modal.find('#d_idanuncio').val(id_anuncio)
+  modal.find('#d_id').text(id_anuncio)
+})
+
+$('#modalAnuncioArquivar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+
+  var id_anuncio = button.data('id')
+  var titulo = button.data('titulo')
+  var url = button.data('url')
+
+  var modal = $(this)
+
+  modal.find('#d_titulo').text(titulo)
+  modal.find('#d_idanuncio').val(id_anuncio)
+  modal.find('#d_id').text(id_anuncio)
+})
+
+$('#modalAnuncioRejeitar').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget)
+
+  var id_anuncio = button.data('id')
+  var titulo = button.data('titulo')
+  var url = button.data('url')
+
+  var modal = $(this)
+
+  modal.find('#d_titulo').text(titulo)
+  modal.find('#d_idanuncio').val(id_anuncio)
+  modal.find('#d_id').text(id_anuncio)
+})
+
+</script>
+
+{% endblock content %}

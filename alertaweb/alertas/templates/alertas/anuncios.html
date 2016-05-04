@@ -1,0 +1,28 @@
+{% extends "alertas/base.html" %}
+{% block page-title %} - Anúncios {% endblock %}
+{% block content %}
+<h1>Anúncios Públicos</h1>
+<table class="table table-hover">
+<thead>
+    <tr>
+        <th>Orgão</th>
+        <th>Data</th>
+        <th>Anúncio</th>
+    </tr>
+</thead>
+{% if anuncios %}
+{% for anuncio in anuncios %}
+<tr>
+    <td scope="row">{{ anuncio.announcement_organ }}</td>
+    <td>{{ anuncio.date_created|date:"SHORT_DATE_FORMAT" }} </td>
+    <td><a href="{{ anuncio.url }}">{{ anuncio.title }}</a></td>
+</tr>
+{% endfor %}
+
+{% else %}
+<tr><td colspan=3><em>Não há anúncios</em></td></tr>
+{% endif %}
+</table>
+
+
+{% endblock content %}

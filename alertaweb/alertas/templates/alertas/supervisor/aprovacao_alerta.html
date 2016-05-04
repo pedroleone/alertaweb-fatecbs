@@ -1,0 +1,56 @@
+{% extends "alertas/base.html" %}
+{% load l10n %}
+{% load crispy_forms_tags %}
+{% block page-title %} - Administração - Aprovação de Alerta {% endblock %}
+{% block content %}
+<h1>Aprovação de Alerta</h1>
+<script type="text/javascript">
+    function initMap() {
+      // Create the map.
+      var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+        zoom: 14,
+        center: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }}},
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      });
+
+        var alert_id_{{ alert.id }} = new google.maps.Circle ({
+            strokeColor: '{{ alert.alert_type.stroke_color }}',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '{{ alert.alert_type.fill_color }}',
+            fillOpacity: 0.35,
+            map: map,
+            center: {lat: {{ alert.latitude|unlocalize }}, lng: {{ alert.longitude|unlocalize }} },
+            radius: {{ alert.radius|unlocalize }}
+        });
+    }
+
+</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVq_qBLGvqksBCYFZPf4xN60oVg0wZtU&callback=initMap">
+</script>
+<style>
+  #mapCanvas {
+    height: 380px;
+  }
+</style>
+<div class="row">
+    <div class="col-sm-12" id="mapCanvas"></div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Alerta código {{ alert.id }} - {{ alert.title }}</h1>
+        <div class="col-sm-4"><p><strong>Latitude: </strong>{{ alert.latitude }}</p></div>
+        <div class="col-sm-4"><p><strong>Longitude: </strong>{{ alert.longitude }}</p></div>
+        <div class="col-sm-4"><p><strong>Raio: </strong>{{ alert.radius }}</p></div>
+
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-4"><p><strong>Data de Criação: </strong>{{ alert.creation_date }}</p></div>
+        <div class="col-sm-4"><p><strong>Tipo de Alerta: </strong>{{ alert.alert_type }}</p></div>
+        <div class="col-sm-4"><p><strong>Órgão: </strong>{{ alert.alert_organ }}</p></div>
+    </div>
+    <a href="{% url 'aprovar_alerta' alert.id %}" class="btn btn-success" role="button">Aprovar</a> <a href="{% url 'rejeitar_alerta' alert.id %}" class="btn btn-danger" role="button">Rejeitar</a>
+</div>
+
+{% endblock content %}
