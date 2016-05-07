@@ -1,7 +1,8 @@
 {% extends "alertas/base.html" %}
-{% block page-title %} - Operacional - Listagem de Alertas {% endblock %}
+{% block page-title %} - Supervisor - Listagem de Alertas {% endblock %}
 {% block content %}
-<h1>Alertas Aprovados</h1>
+<h1>Controle de Alertas</h1>
+<h2>Alertas Aprovados</h2>
 <table class="table table-hover">
 <thead>
     <tr>
@@ -30,7 +31,7 @@
 </table>
 
 
-<h1>Alertas Pendente de Aprovação</h1>
+<h2>Alertas Pendente de Aprovação</h2>
 <table class="table table-hover">
 <thead>
     <tr>
@@ -56,7 +57,7 @@
 <tr><td colspan=4><em>Não há alertas pendente de aprovação</em></td></tr>
 {% endif %}
 </table>
-<h1>Alertas Rejeitados</h1>
+<h2>Alertas Rejeitados</h2>
 <table class="table table-hover">
 <thead>
     <tr>
@@ -83,7 +84,7 @@
 {% endif %}
 </table>
 
-<h1>Alertas Arquivados</h1>
+<h2>Alertas Arquivados</h2>
 <table class="table table-hover">
 <thead>
     <tr>
