@@ -151,7 +151,7 @@ def detalhe_alerta(request, pk):
         permission = 0
     else:
         permission = request.user.userorgan.user_permission
-    return render(request, 'alertas/detail_alerta.html', {'alert': alert, 'mensagens': mensagens, 'form': form, 'bootstrap_alerts':bootstrap_alerts, 'permission': permission})
+    return render(request, 'alertas/supervisor/mensagens_alerta.html', {'alert': alert, 'mensagens': mensagens, 'form': form, 'bootstrap_alerts':bootstrap_alerts, 'permission': permission})
 
 
 @login_required(login_url='/login/')

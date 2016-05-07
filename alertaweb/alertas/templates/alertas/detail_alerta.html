@@ -5,7 +5,8 @@
 {% block page-title %} - Administração - Detalhe Alerta {% endblock %}
 
 {% block content %}
-<h1>{{ alert.title }}</h1>
+<h1>Controle de Mensagens</h1>
+<h2>{{ alert.title }}</h2>
 {% for b_alert in bootstrap_alerts %}
 <div class="alert {{ b_alert.alert_type }} alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
